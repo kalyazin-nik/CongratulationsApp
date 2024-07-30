@@ -14,4 +14,8 @@
     <Folder Include="Migrations\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Congratulations.Entities\Congratulations.Entities.csproj" />
+  </ItemGroup>
+
 </Project>
