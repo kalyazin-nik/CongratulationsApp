@@ -8,7 +8,10 @@ namespace Congratulations.Factories;
 internal class DbContextFactory : IDesignTimeDbContextFactory<DataContext>
 {
     private static DbContextOptions<DataContext> _options = null!;
+    private static DataContext _dataContext = null!;
+
     internal static DbContextOptions<DataContext> Options => _options ?? GetOptions();
+    internal static DataContext DataContext => _dataContext ?? CreateDataContext();
 
     private static DbContextOptions<DataContext> GetOptions()
     {
@@ -18,18 +21,17 @@ internal class DbContextFactory : IDesignTimeDbContextFactory<DataContext>
         var config = builder.Build();
         var connectionString = config.GetConnectionString("PostgresConnection");
         var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
-        _options = optionsBuilder.UseNpgsql(connectionString).Options;
 
-        return _options;
+        return _options = optionsBuilder.UseNpgsql(connectionString).Options;
     }
 
     public DataContext CreateDbContext(string[] args)
     {
-        return new DataContext(Options);
+        return CreateDataContext();
     }
 
     internal static DataContext CreateDataContext()
     {
-        return new DataContext(Options);
+        return _dataContext = new DataContext(Options);
     }
 }
