@@ -1,9 +1,9 @@
 ﻿namespace Congratulations.Entities;
 
-public sealed class Address(int employeeID, string country, string city, string street, string houseNumber, string? apartment) : BaseEntity
+public sealed class Address(string country, string city, string street, string houseNumber, string? apartment, int? employeeID = null) : BaseEntity
 {
     public int ID { get; set; }
-    public int EmployeeID { get; set; } = employeeID;
+    public int? EmployeeID { get; set; } = employeeID;
     public Employee? Employee { get; set; }
     public string Country { get; set; } = country;
     public string City { get; set; } = city;

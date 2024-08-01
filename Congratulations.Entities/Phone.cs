@@ -1,9 +1,9 @@
 ﻿namespace Congratulations.Entities;
 
-public sealed class Phone(int employeeID, long number) : BaseEntity
+public sealed class Phone(long number, int? employeeID = null) : BaseEntity
 {
     public int ID { get; set; }
-    public int EmployeeID { get; set; } = employeeID;
+    public int? EmployeeID { get; set; } = employeeID;
     public Employee? Employee { get; set; }
     public long Number { get; set; } = number;
 

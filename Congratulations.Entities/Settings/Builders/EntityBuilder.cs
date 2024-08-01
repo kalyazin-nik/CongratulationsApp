@@ -18,7 +18,7 @@ public static class EntityBuilder<TEntity>
 
     private static void ChangeTable(ModelBuilder modelBuilder)
     {
-        if (Tables.TryGetValue(nameof(TEntity), out var table))
+        if (Tables.TryGetValue(typeof(TEntity).Name, out var table))
         {
             modelBuilder.Entity<TEntity>().ToTable(table.Name, schema: table.Schema);
 
@@ -60,6 +60,10 @@ public static class EntityBuilder<TEntity>
                 {
                     modelBuilder.Entity<TEntity>().Property(property.Name).ValueGeneratedNever();
                     modelBuilder.Entity<TEntity>().HasKey(property.Name);
+                }
+
+                if (column.HasIndex)
+                {
                     modelBuilder.Entity<TEntity>().HasIndex(property.Name);
                 }
             }
