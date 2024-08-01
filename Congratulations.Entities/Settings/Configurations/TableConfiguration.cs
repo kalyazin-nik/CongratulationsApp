@@ -1,6 +1,6 @@
-﻿using Congratulations.Database.Models;
+﻿using Congratulations.Entities.Settings.Models;
 
-namespace Congratulations.Database.Configurations;
+namespace Congratulations.Entities.Settings.Configurations;
 
 internal static class TableConfiguration
 {

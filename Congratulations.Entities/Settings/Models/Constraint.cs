@@ -1,4 +1,4 @@
-﻿namespace Congratulations.Database.Models;
+﻿namespace Congratulations.Entities.Settings.Models;
 
 internal readonly struct Constraint(string name, string sql)
 {

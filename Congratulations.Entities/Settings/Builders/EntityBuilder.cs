@@ -1,9 +1,8 @@
-﻿using Congratulations.Database.Configurations;
-using Congratulations.Database.Models;
-using Congratulations.Entities;
+﻿using Congratulations.Entities.Settings.Configurations;
+using Congratulations.Entities.Settings.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Congratulations.Database.Builders;
+namespace Congratulations.Entities.Settings.Builders;
 
 public static class EntityBuilder<TEntity>
     where TEntity : BaseEntity
@@ -39,6 +38,12 @@ public static class EntityBuilder<TEntity>
         {
             if (Columns.TryGetValue(property.Name, out var column))
             {
+                if (column.IsIgnore)
+                {
+                    modelBuilder.Entity<TEntity>().Ignore(property.Name);
+                    continue;
+                }
+
                 modelBuilder.Entity<TEntity>().Property(property.Name).HasColumnName(column.Name);
 
                 if (column.Type is not null)
