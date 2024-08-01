@@ -3,13 +3,13 @@
 public sealed class Address(string country, string city, string street, string houseNumber, string? apartment, int? employeeID = null) : BaseEntity
 {
     public int ID { get; set; }
-    public int? EmployeeID { get; set; } = employeeID;
-    public Employee? Employee { get; set; }
     public string Country { get; set; } = country;
     public string City { get; set; } = city;
     public string Street { get; set; } = street;
     public string HouseNumber { get; set; } = houseNumber;
     public string? Apartment { get; set; } = apartment;
+    public int? EmployeeID { get; set; } = employeeID;
+    public Employee? Employee { get; set; }
 
     public override string ToString()
     {
