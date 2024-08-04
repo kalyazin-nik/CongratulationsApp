@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Congratulations.Entities", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Congratulations.Shell", "Congratulations.Shell\Congratulations.Shell.csproj", "{EA72F3F2-2C91-4EFE-B495-812902F9CE82}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Congratulations.Tasks", "Congratulations.Tasks\Congratulations.Tasks.csproj", "{06963979-9931-4262-84A8-AEA7F6D3D776}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{EA72F3F2-2C91-4EFE-B495-812902F9CE82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA72F3F2-2C91-4EFE-B495-812902F9CE82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA72F3F2-2C91-4EFE-B495-812902F9CE82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06963979-9931-4262-84A8-AEA7F6D3D776}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06963979-9931-4262-84A8-AEA7F6D3D776}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06963979-9931-4262-84A8-AEA7F6D3D776}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06963979-9931-4262-84A8-AEA7F6D3D776}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

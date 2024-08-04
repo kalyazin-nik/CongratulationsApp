@@ -8,6 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -20,6 +30,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Congratulations.Database\Congratulations.Database.csproj" />
     <ProjectReference Include="..\Congratulations.Shell\Congratulations.Shell.csproj" />
+    <ProjectReference Include="..\Congratulations.Tasks\Congratulations.Tasks.csproj" />
   </ItemGroup>
 
 </Project>
