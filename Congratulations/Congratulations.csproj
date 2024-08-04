@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Congratulations.Database\Congratulations.Database.csproj" />
+    <ProjectReference Include="..\Congratulations.Shell\Congratulations.Shell.csproj" />
   </ItemGroup>
 
 </Project>

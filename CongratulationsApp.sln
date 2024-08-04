@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Congratulations", "Congratu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Congratulations.Database", "Congratulations.Database\Congratulations.Database.csproj", "{BF8B90CA-6B19-43F5-A9A2-8DFD3D47F0CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Congratulations.Entities", "Congratulations.Entities\Congratulations.Entities.csproj", "{B2D7109E-4AB8-4A29-B13C-2E0E42BD6BCF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Congratulations.Entities", "Congratulations.Entities\Congratulations.Entities.csproj", "{B2D7109E-4AB8-4A29-B13C-2E0E42BD6BCF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Congratulations.Shell", "Congratulations.Shell\Congratulations.Shell.csproj", "{EA72F3F2-2C91-4EFE-B495-812902F9CE82}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{B2D7109E-4AB8-4A29-B13C-2E0E42BD6BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2D7109E-4AB8-4A29-B13C-2E0E42BD6BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2D7109E-4AB8-4A29-B13C-2E0E42BD6BCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA72F3F2-2C91-4EFE-B495-812902F9CE82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA72F3F2-2C91-4EFE-B495-812902F9CE82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA72F3F2-2C91-4EFE-B495-812902F9CE82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA72F3F2-2C91-4EFE-B495-812902F9CE82}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
