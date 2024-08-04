@@ -13,13 +13,8 @@ public static class EmployeeHandler
         DataContext = dataContext;
     }
 
-    public static async void CreateEmployee()
+    internal static async void CreateEmployee(string surname, string name, string patronymic, DateTime birthday)
     {
-        var name = string.Empty;
-        var surname = string.Empty;
-        var patronymic = string.Empty;
-        var birthday = DateTime.Today;
-
         var employee = new Employee(name, surname, patronymic, birthday);
 
         await DataContext.AddAsync(employee);

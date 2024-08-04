@@ -9,7 +9,12 @@ namespace Congratulations
         static void Main(string[] args)
         {
             EmployeeHandler.SetDataContext(DbContextFactory.CreateDataContext());
-            new WorkWidow().Run();
+            var shell = new WorkWidow();
+            var employeeTask = new EmployeeTask();
+
+            shell.Run();
+            employeeTask.Reader.Start();
+            employeeTask.Created.Start();
         }
     }
 }

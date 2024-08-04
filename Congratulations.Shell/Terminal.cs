@@ -1,4 +1,7 @@
-﻿namespace Congratulations.Shell;
+﻿using Congratulations.Shell.Windows;
+using System.Runtime.CompilerServices;
+
+namespace Congratulations.Shell;
 
 internal static class Terminal
 {
@@ -9,9 +12,8 @@ internal static class Terminal
     internal static int Height { get; set; }
     internal static string Buffer { get; set; } = null!;
     internal static bool IsNotExit { get; set; } = true;
-    internal static bool IsShowMenu { get; set; } = false;
-    internal static bool IsShowCongraturlate { get; set; } = false;
     internal static bool IsSizeChanged => Width != Console.WindowWidth || Height != Console.WindowHeight;
+    public static string CheckingInputState { get; set; } = "CheckKyeInput";
 
     internal static void ShowMenuBar()
     {
@@ -22,6 +24,12 @@ internal static class Terminal
                 ChangeSize();
                 RefreshScreen();
             }
+
+            Thread.Sleep(2000);
+            if (MenuBar.ActiveMenuBarName == "WorkingArea" && CheckingInputState == "CheckKyeInput")
+            {
+                RefreshScreen();
+            }
         }
     }
 
@@ -29,12 +37,14 @@ internal static class Terminal
     {
         while (IsNotExit)
         {
-            if (IsShowMenu)
-                InputHandler.CheckKyeInputFromMenu(Console.ReadKey(true));
-            else if (IsShowCongraturlate)
-                InputHandler.CheckKyeInputFromCongratulateMenu(Console.ReadKey(true));
-            else
-                InputHandler.CheckKyeInput(Console.ReadKey());
+            _ = CheckingInputState switch
+            {
+                "CheckKyeInput" => InputHandler.CheckKyeInput(Console.ReadKey(true)),
+                "CheckKyeInputFromMenu" => InputHandler.CheckKyeInputFromMenu(Console.ReadKey(true)),
+                "CheckKyeInputFromCongratulateMenu" => InputHandler.CheckKyeInputFromCongratulateMenu(Console.ReadKey(true)),
+                "CheckKeyInputFromCreateEmployee" => InputHandler.CheckKeyInputFromCreateEmployee(Console.ReadKey()),
+                _ => false
+            };
         }
     }
 
@@ -42,47 +52,50 @@ internal static class Terminal
     {
         Width = Console.WindowWidth;
         Height = Console.WindowHeight;
-
-        if (Width <= MenuBar.ActiveMenuBarMinLength)
-        {
-            Console.BufferWidth = MenuBar.ActiveMenuBarMinLength;
-        }
+        Console.SetBufferSize(500, 1000);
     }
 
     internal static bool RefreshScreen()
     {
-        Console.CursorVisible = true;
-        IsShowMenu = false;
-        IsShowCongraturlate = false;
+        var backColor = Console.BackgroundColor;
+        Console.BackgroundColor = ConsoleColor.DarkBlue;
         Console.Clear();
-
-        Console.BackgroundColor = ConsoleColor.Gray;
-        Console.ForegroundColor = ConsoleColor.Black;
+        Console.BackgroundColor = backColor;
 
         _ = MenuBar.ActiveMenuBarName switch
         {
-            "WorkingArea" => WriteLine(MenuBar.WorkingArea),
-            "EmployeeListMenu" => WriteLine(MenuBar.EmployeeListMenu),
-            "CreateRecordEmployeeMenu" => WriteLine(MenuBar.CreateRecordEmployeeMenu),
-            "UpdateRecordEmployeeMenu" => WriteLine(MenuBar.UpdateRecordEmployeeMenu),
-            "DeleteRecordEmployeeMenu" => WriteLine(MenuBar.DeleteRecordEmployeeMenu),
-            "CongratulateEmployee" => WriteLine(MenuBar.CongratulateEmployee),
-            "UpcomingBirthdays" => WriteLine(MenuBar.UpcomingBirthdays),
-            "UnmarkedBirthdays" => WriteLine(MenuBar.UnmarkedBirthdays),
+            "WorkingArea" => ShowWindow(MenuBar.WorkingArea),
+            "EmployeeListMenu" => ShowWindow(MenuBar.EmployeeListMenu),
+            "CreateRecordEmployeeMenu" => ShowWindow(MenuBar.CreateRecordEmployeeMenu),
+            "UpdateRecordEmployeeMenu" => ShowWindow(MenuBar.UpdateRecordEmployeeMenu),
+            "DeleteRecordEmployeeMenu" => ShowWindow(MenuBar.DeleteRecordEmployeeMenu),
+            "CongratulateEmployee" => ShowWindow(MenuBar.CongratulateEmployee),
+            "UpcomingBirthdays" => ShowWindow(MenuBar.UpcomingBirthdays),
+            "UnmarkedBirthdays" => ShowWindow(MenuBar.UnmarkedBirthdays),
             _ => false
         };
 
-        Console.CursorLeft = 1;
-        Console.CursorTop = 2;
+        try
+        {
+            CheckingInputState = MenuBar.ActiveMenuBarName switch
+            {
+                "WorkingArea" => "CheckKyeInput",
+                "CreateRecordEmployeeMenu" => "CheckKeyInputFromCreateEmployee",
+                "EmployeeListMenu" => "CheckKyeInput"
+            };
+        }
+        catch (SwitchExpressionException) { }
 
-        Console.ForegroundColor = _defaultForeColor;
-        Console.BackgroundColor = _defaultBackColor;
+        _ = MenuBar.ActiveMenuBarName switch
+        {
+            "CreateRecordEmployeeMenu" => CreateEmployee.ShowContentInBuffer(),
+            _ => false
+        };
 
-        Console.Write(Buffer);
         return true;
     }
 
-    internal static bool ShowBarMenu(string menuName, int minLengthMenuName)
+    internal static bool DisplayBarMenu(string menuName, int minLengthMenuName)
     {
         Buffer = string.Empty;
         MenuBar.ActiveMenuBarName = menuName;
@@ -92,13 +105,11 @@ internal static class Terminal
         return true;
     }
 
-    internal static bool ShowSubmenu(List<string> items, int offset, int widthSubmenu, bool isShowMenu = false, bool isShowCongratulate = false)
+    internal static bool DisplaySubmenu(List<string> items, int offset, int widthSubmenu, string checkingInputState)
     {
         RefreshScreen();
-        IsShowMenu = isShowMenu;
-        IsShowCongraturlate = isShowCongratulate;
 
-        var cursorPosition = Console.GetCursorPosition();
+        CheckingInputState = checkingInputState;
         Console.CursorVisible = false;
         Console.CursorTop = 1;
 
@@ -106,6 +117,7 @@ internal static class Terminal
         Console.BackgroundColor = ConsoleColor.DarkGray;
         Console.ForegroundColor = ConsoleColor.Black;
 
+        var cursorPosition = Console.GetCursorPosition();
         foreach (var item in items)
         {
             Console.CursorLeft = offset;
@@ -114,15 +126,23 @@ internal static class Terminal
 
         Console.SetCursorPosition(cursorPosition.Left, cursorPosition.Top);
 
-        Console.ForegroundColor = _defaultForeColor;
-        Console.BackgroundColor = _defaultBackColor;
         return true;
     }
 
-    private static bool WriteLine(string menuBar)
+    private static bool ShowWindow(string menuBar)
     {
+        Console.BackgroundColor = ConsoleColor.Gray;
+        Console.ForegroundColor = ConsoleColor.Black;
+        Console.CursorVisible = false;
         Console.WriteLine(menuBar);
-        return true;
+
+        return MenuBar.ActiveMenuBarName switch
+        {
+            "WorkingArea" => WorkingArea.Show(),
+            "EmployeeListMenu" => ReadEmployees.Show(),
+            "CreateRecordEmployeeMenu" => CreateEmployee.Show(),
+            _ => false
+        };
     }
 
     internal static bool MoveLine(ConsoleKeyInfo keyInfo)
